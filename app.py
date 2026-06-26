@@ -133,16 +133,23 @@ INSTRUÇÕES:
 5. Ao final, adicione '📎 Fontes utilizadas:' com os títulos dos artigos usados
 6. Em e-mails, inclua linha de assunto sugerida no início"""
 
+# ── Chave da OpenAI (Streamlit Secrets ou variável de ambiente) ────────────────
+api_key = st.secrets.get("OPENAI_API_KEY", "") or os.environ.get("OPENAI_API_KEY", "")
+
 # ── Sidebar ────────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("## ⚙️ Configuração")
 
-    api_key = st.text_input(
-        "Chave da OpenAI",
-        type="password",
-        placeholder="sk-proj-...",
-        help="Acesse platform.openai.com → API Keys"
-    )
+    # Mostra campo de chave apenas se não estiver configurada via Secrets
+    if not api_key:
+        api_key = st.text_input(
+            "Chave da OpenAI",
+            type="password",
+            placeholder="sk-proj-...",
+            help="Acesse platform.openai.com → API Keys"
+        )
+    else:
+        st.success("🔑 Chave da OpenAI configurada")
 
     chroma_path = st.text_input(
         "Caminho da base vetorial",
@@ -162,7 +169,7 @@ with st.sidebar:
         except Exception as e:
             st.error(f"Erro: {str(e)[:80]}")
     else:
-        st.info("Configure a chave e o caminho da base para verificar.")
+        st.info("Base vetorial não encontrada ou chave não configurada.")
 
     st.divider()
     st.markdown("""
