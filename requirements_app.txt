@@ -1,0 +1,7 @@
+streamlit>=1.35
+langchain>=0.2
+langchain-community>=0.2
+langchain-openai>=0.1
+langchain-chroma>=0.1
+chromadb>=0.4
+openai>=1.0
